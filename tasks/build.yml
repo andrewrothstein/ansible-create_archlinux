@@ -1,0 +1,7 @@
+---
+#- name: build...
+#  command: ./build.sh -v
+#  args:
+#    chdir: '{{archiso_target_dir}}'
+#  tags:
+#    - build

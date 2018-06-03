@@ -61,9 +61,3 @@
       echo localhost > /etc/ansible/inventories/localhost
       ansible-galaxy install -r /root/requirements.yml
       ansible-playbook /root/playbook.yml
-#- name: build...
-#  command: ./build.sh -v
-#  args:
-#    chdir: '{{archiso_target_dir}}'
-#  tags:
-#    - build
