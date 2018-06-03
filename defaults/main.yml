@@ -1,0 +1,18 @@
+---
+# defaults file for create-archlinux
+archiso_rootdir: /root
+archiso_profile: releng
+
+archiso_keys_to_trust:
+  - who: Jesus Alvarez <jeezusjr@gmail.com>
+    keyid: 5E1ABF240EE7A126
+
+archiso_pacman_repos:
+  - |
+    [archzfs]
+    Server = http://archzfs.com/$repo/x86_64
+
+archiso_pkgs_both:
+  - ansible
+archiso_pkgs_x86_64:
+  - archzfs-linux

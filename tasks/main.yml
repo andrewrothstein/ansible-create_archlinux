@@ -1,0 +1,69 @@
+---
+# tasks file for create-archlinux
+- name: install archiso
+  package:
+    name: archiso
+    state: present
+- name: add additional package maintainer keys to your web of trust
+  with_items: '{{archiso_keys_to_trust}}'
+  command: pacman-key -r '{{item.keyid}}'
+  tags:
+    - keys
+- name: sign additional package maintainer keys
+  with_items: '{{archiso_keys_to_trust}}'
+  command: pacman-key --lsign-key '{{item.keyid}}'
+  tags:
+    - keys
+- name: copy profile...
+  command: cp -R -p /usr/share/archiso/configs/{{archiso_profile}} '{{archiso_rootdir}}'
+  tags:
+    - profile
+- name: add pacman repositories
+  with_items: '{{archiso_pacman_repos}}'
+  blockinfile:
+    path: '{{archiso_pacman_conf_file}}'
+    block: '{{item}}'
+    state: present
+- name: add to packages.both....
+  with_items: '{{archiso_pkgs_both|default([])}}'
+  lineinfile:
+    path: '{{archiso_pkgs_both_file}}'
+    line: '{{item}}'
+    state: present
+- name: add to packages.i686....
+  with_items: '{{archiso_pkgs_i686|default([])}}'
+  lineinfile:
+    path: '{{archiso_pkgs_i686_file}}'
+    line: '{{item}}'
+    state: present
+- name: add to packages.both....
+  with_items: '{{archiso_pkgs_x86_64|default([])}}'
+  lineinfile:
+    path: '{{archiso_pkgs_x86_64_file}}'
+    line: '{{item}}'
+    state: present
+- name: stage ansible config
+  with_items:
+    - f: requirements.yml
+      d: '{{archiso_root_dir}}'
+    - f: playbook.yml
+      d: '{{archiso_root_dir}}'
+    - f: .ansible.cfg
+      d: '{{archiso_root_dir}}'
+  copy:
+    src: '{{item.f}}'
+    dest: '{{item.d}}/{{item.f}}'
+- name: add ansible ignition...
+  blockinfile:
+    path: '{{archiso_customize_file}}'
+    block: |
+      mkdir -p /etc/ansible/inventories
+      echo localhost > /etc/ansible/inventories/localhost
+      ansible-galaxy install -r /root/requirements.yml
+      ansible-playbook /root/playbook.yml
+#- name: build...
+#  command: ./build.sh -v
+#  args:
+#    chdir: '{{archiso_target_dir}}'
+#  tags:
+#    - build
