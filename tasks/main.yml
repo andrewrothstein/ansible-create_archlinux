@@ -24,24 +24,15 @@
     path: '{{archiso_pacman_conf_file}}'
     block: '{{item}}'
     state: present
-- name: add to packages.both....
-  with_items: '{{archiso_pkgs_both|default([])}}'
-  lineinfile:
-    path: '{{archiso_pkgs_both_file}}'
-    line: '{{item}}'
-    state: present
-- name: add to packages.i686....
-  with_items: '{{archiso_pkgs_i686|default([])}}'
-  lineinfile:
-    path: '{{archiso_pkgs_i686_file}}'
-    line: '{{item}}'
-    state: present
-- name: add to packages.both....
-  with_items: '{{archiso_pkgs_x86_64|default([])}}'
-  lineinfile:
-    path: '{{archiso_pkgs_x86_64_file}}'
-    line: '{{item}}'
-    state: present
+- name: construct packages.*....
+  with_items:
+    - packages.both
+    - packages.i686
+    - packages.x86_64
+  template:
+    src: '{{item}}.j2'
+    dest: '{{archiso_target_dir}}/{{item}}'
+    mode: 0644
 - name: stage ansible config
   with_items:
     - f: requirements.yml

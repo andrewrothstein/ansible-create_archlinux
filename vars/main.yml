@@ -1,9 +1,6 @@
 ---
 # vars file for create-archlinux
 archiso_target_dir: '{{archiso_rootdir}}/{{archiso_profile}}'
-archiso_pkgs_both_file: '{{archiso_target_dir}}/packages.both'
-archiso_pkgs_i686_file: '{{archiso_target_dir}}/packages.i686'
-archiso_pkgs_x86_64_file: '{{archiso_target_dir}}/packages.x86_64'
 archiso_root_dir: '{{archiso_target_dir}}/airootfs/root'
 archiso_etc_dir: '{{archiso_target_dir}}/airootfs/etc'
 archiso_customize_file: '{{archiso_root_dir}}/customize_airootfs.sh'

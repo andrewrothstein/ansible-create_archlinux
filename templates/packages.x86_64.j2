@@ -1,0 +1,6 @@
+{% for i in archiso_releng_pkgs_x86_64|default([]) %}
+{{i}}
+{% endfor %}
+{% for j in archiso_pkgs_x86_64|default([]) %}
+{{j}}
+{% endfor %}
