@@ -1,0 +1,21 @@
+---
+- name: stage ansible config
+  become: yes
+  become_user: root
+  with_items:
+    - f: requirements.yml
+    - f: playbook.yml
+    - f: .ansible.cfg
+  copy:
+    src: '{{ item.f }}'
+    dest: '{{ item.d|default(archiso_root_dir) }}/{{ item.f }}'
+- name: add ansible ignition...
+  become: yes
+  become_user: root
+  blockinfile:
+    path: '{{ archiso_customize_file }}'
+    block: |
+      mkdir -p /etc/ansible/inventories
+      echo localhost > /etc/ansible/inventories/localhost
+      ansible-galaxy install -r /root/requirements.yml
+      ansible-playbook /root/playbook.yml

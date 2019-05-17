@@ -1,6 +1,6 @@
 {% for i in archiso_releng_pkgs_both %}
 {{i}}
 {% endfor %}
-{% for j in archiso_pkgs_both %}
+{% for j in archiso_pkgs_both|default([]) %}
 {{j}}
 {% endfor %}

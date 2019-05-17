@@ -3,19 +3,26 @@
 archiso_rootdir: /root
 archiso_profile: releng
 
-archiso_keys_to_trust:
-  - who: Jesus Alvarez <jeezusjr@gmail.com>
-    keyid: 5E1ABF240EE7A126
+#archiso_keys_to_trust:
+#  - who: ArchZFS Bot
+#    keyid: F75D9D76
 
-archiso_pacman_repos:
-  - |
-    [archzfs]
-    Server = http://archzfs.com/$repo/x86_64
+#archiso_pacman_repos:
+#  - |
+#    [archzfs]
+#    Server = http://archzfs.com/$repo/x86_64
 
-archiso_pkgs_both:
-  - ansible
+# additional package for both builds
+#archiso_pkgs_both:
+#  - ansible
+
+# additional packages for the x86_64 build
 #archiso_pkgs_x86_64:
 #  - archzfs-linux
+
+# additional pacakges for the i686 build
+#archiso_pkgs_i686
+#  - htop
 
 archiso_releng_pkgs_both:
   - arch-install-scripts
@@ -82,4 +89,3 @@ archiso_releng_pkgs_both:
   - wvdial
   - xl2tpd
   - zd1211-firmware
-  

@@ -1,5 +1,5 @@
 ---
 - hosts: localhost
   roles:
-    - andrewrothstein.emacs
+    - andrewrothstein.unarchive-deps
 

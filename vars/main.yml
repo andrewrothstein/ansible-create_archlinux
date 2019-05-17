@@ -1,7 +1,8 @@
 ---
 # vars file for create-archlinux
-archiso_target_dir: '{{archiso_rootdir}}/{{archiso_profile}}'
-archiso_root_dir: '{{archiso_target_dir}}/airootfs/root'
-archiso_etc_dir: '{{archiso_target_dir}}/airootfs/etc'
-archiso_customize_file: '{{archiso_root_dir}}/customize_airootfs.sh'
-archiso_pacman_conf_file: '{{archiso_target_dir}}/pacman.conf'
+archiso_target_dir: '{{ archiso_rootdir }}/{{ archiso_profile }}'
+archiso_out_dir: '{{ archiso_target_dir }}/out'
+archiso_root_dir: '{{ archiso_target_dir }}/airootfs/root'
+archiso_etc_dir: '{{ archiso_target_dir }}/airootfs/etc'
+archiso_customize_file: '{{ archiso_root_dir }}/customize_airootfs.sh'
+archiso_pacman_conf_file: '{{ archiso_target_dir }}/pacman.conf'

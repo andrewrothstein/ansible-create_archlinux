@@ -1,7 +1,14 @@
 ---
-#- name: build...
-#  command: ./build.sh -v
-#  args:
-#    chdir: '{{archiso_target_dir}}'
-#  tags:
-#    - build
+- name: build...
+  become: yes
+  become_user: root
+  command: ./build.sh -v
+  args:
+    chdir: '{{archiso_target_dir}}'
+- name: downloading built ISO
+  become: yes
+  become_user: root
+  copy:
+    remote_src: yes
+    src: '{{ archiso_out_dir }}/archlinux-{{ ansible_date_time.year }}.{{ ansible_date_time.month }}.{{ ansible_date_time.day }}-x86_64.iso'
+    dest: /tmp

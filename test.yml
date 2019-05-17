@@ -2,3 +2,12 @@
 - hosts: all
   roles:
     - role: '{{playbook_dir}}'
+      archiso_keys_to_trust:
+        - who: ArchZFS Bot
+          keyid: F75D9D76
+      archiso_pacman_repos:
+        - |
+          [archzfs]
+          Server = http://archzfs.com/$repo/x86_64
+      archiso_pkgs_x86_64:
+        - archzfs-linux

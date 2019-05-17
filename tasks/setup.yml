@@ -1,0 +1,62 @@
+---
+- name: install archiso
+  become: yes
+  become_user: root
+  with_items:
+    - git
+    - make
+    - arch-install-scripts
+    - squashfs-tools
+    - libisoburn
+    - dosfstools
+    - lynx
+    - archiso
+  package:
+    name: '{{ item }}'
+    state: present
+- name: add additional package maintainer keys to your web of trust
+  become: yes
+  become_user: root
+  with_items: '{{ archiso_keys_to_trust }}'
+  command: pacman-key -r '{{ item.keyid }}'
+- name: sign additional package maintainer keys
+  become: yes
+  become_user: root
+  with_items: '{{ archiso_keys_to_trust }}'
+  command: pacman-key --lsign-key '{{ item.keyid }}'
+- name: copy profile...
+  become: yes
+  become_user: root
+  command: cp -R -p /usr/share/archiso/configs/{{ archiso_profile }} '{{ archiso_rootdir }}'
+- name: add pacman repositories
+  become: yes
+  become_user: root
+  with_items: '{{ archiso_pacman_repos }}'
+  blockinfile:
+    path: '{{ archiso_pacman_conf_file }}'
+    block: '{{ item }}'
+    state: present
+- name: construct packages.*....
+  become: yes
+  become_user: root
+  with_items:
+    - packages.both
+    - packages.i686
+    - packages.x86_64
+  template:
+    src: '{{ item }}.j2'
+    dest: '{{ archiso_target_dir }}/{{ item }}'
+    mode: 0644
+- name: mkdir /etc/ssh
+  become: yes
+  become_user: root
+  file:
+    path: '{{ archiso_etc_dir }}/ssh'
+    state: directory
+- name: copy sshd_config
+  become: yes
+  become_user: root
+  copy:
+    src: /etc/ssh/sshd_config
+    dest: '{{ archiso_etc_dir }}/ssh/sshd_config'
+    mode: 0644
