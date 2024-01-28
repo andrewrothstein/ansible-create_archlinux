@@ -1,9 +1,11 @@
 ---
 # tasks file for create-archlinux
-- include: setup.yml
+- name: Setup...
+  ansible.builtin.include_tasks: setup.yml
   tags:
     - setup
     - build
-- include: build.yml
+- name: Build...
+  ansible.builtin.include_tasks: build.yml
   tags:
     - build

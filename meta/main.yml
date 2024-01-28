@@ -1,16 +1,15 @@
 ---
 galaxy_info:
   author: Andrew Rothstein
-  description: builds an ArchLinux ISO for iPXE booting
   company: BlueMountain Capital
-  license:
-    - MIT
-  min_ansible_version: 2.0
-  platforms:
-    - name: Archlinux
-      versions:
-        - all
+  description: builds an ArchLinux ISO for iPXE booting
   galaxy_tags:
     - development
-
-dependencies: []
+  license: MIT
+  min_ansible_version: '2.0'
+  namespace: andrewrothstein
+  platforms:
+    - name: ArchLinux
+      versions:
+        - all
+  role_name: create_archlinux

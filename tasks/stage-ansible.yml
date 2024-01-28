@@ -1,18 +1,18 @@
 ---
-- name: stage ansible config
-  become: yes
+- name: Stage ansible config
+  become: true
   become_user: root
   with_items:
     - f: requirements.yml
     - f: playbook.yml
     - f: .ansible.cfg
-  copy:
+  ansible.builtin.copy:
     src: '{{ item.f }}'
-    dest: '{{ item.d|default(archiso_root_dir) }}/{{ item.f }}'
-- name: add ansible ignition...
-  become: yes
+    dest: '{{ item.d | default(archiso_root_dir) }}/{{ item.f }}'
+- name: Add ansible ignition...
+  become: true
   become_user: root
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: '{{ archiso_customize_file }}'
     block: |
       mkdir -p /etc/ansible/inventories

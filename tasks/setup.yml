@@ -1,62 +1,64 @@
 ---
-- name: install archiso
-  become: yes
+- name: Install archiso, et. al.
+  become: true
   become_user: root
-  with_items:
-    - git
-    - make
-    - arch-install-scripts
-    - squashfs-tools
-    - libisoburn
-    - dosfstools
-    - lynx
-    - archiso
   package:
-    name: '{{ item }}'
+    name:
+      - git
+      - make
+      - arch-install-scripts
+      - squashfs-tools
+      - libisoburn
+      - dosfstools
+      - lynx
+      - archiso
     state: present
-- name: add additional package maintainer keys to your web of trust
-  become: yes
+- name: Add additional package maintainer keys to your web of trust
+  become: true
   become_user: root
   with_items: '{{ archiso_keys_to_trust }}'
-  command: pacman-key -r '{{ item.keyid }}'
-- name: sign additional package maintainer keys
-  become: yes
+  ansible.builtin.command: pacman-key -r '{{ item.keyid }}'
+  changed_when: false
+- name: Sign additional package maintainer keys
+  become: true
   become_user: root
   with_items: '{{ archiso_keys_to_trust }}'
-  command: pacman-key --lsign-key '{{ item.keyid }}'
-- name: copy profile...
-  become: yes
+  ansible.builtin.command: pacman-key --lsign-key '{{ item.keyid }}'
+  changed_when: false
+- name: Copy profile...
+  become: true
   become_user: root
-  command: cp -R -p /usr/share/archiso/configs/{{ archiso_profile }} '{{ archiso_rootdir }}'
-- name: add pacman repositories
-  become: yes
+  ansible.builtin.command: cp -R -p /usr/share/archiso/configs/{{ archiso_profile }} '{{ archiso_rootdir }}'
+  changed_when: false
+- name: Add pacman repositories
+  become: true
   become_user: root
   with_items: '{{ archiso_pacman_repos }}'
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: '{{ archiso_pacman_conf_file }}'
     block: '{{ item }}'
     state: present
-- name: construct packages.*....
-  become: yes
+- name: Construct packages.*....
+  become: true
   become_user: root
   with_items:
     - packages.both
     - packages.i686
     - packages.x86_64
-  template:
+  ansible.builtin.template:
     src: '{{ item }}.j2'
     dest: '{{ archiso_target_dir }}/{{ item }}'
-    mode: 0644
-- name: mkdir /etc/ssh
-  become: yes
+    mode: '644'
+- name: Mkdir /etc/ssh
+  become: true
   become_user: root
-  file:
+  ansible.builtin.file:
     path: '{{ archiso_etc_dir }}/ssh'
     state: directory
-- name: copy sshd_config
-  become: yes
+- name: Copy sshd_config
+  become: true
   become_user: root
-  copy:
+  ansible.builtin.copy:
     src: /etc/ssh/sshd_config
     dest: '{{ archiso_etc_dir }}/ssh/sshd_config'
-    mode: 0644
+    mode: '644'
